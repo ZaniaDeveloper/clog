@@ -1,42 +1,42 @@
-package plog
+package clog
 
 import (
-	"strings"
 	"github.com/mgutz/ansi"
 	"reflect"
+	"strings"
 )
 
 const (
 	THEME_STRING_SEPARATORS = ","
 	THEME_VALUE_SEPARATOR   = "="
 
-	LEVEL_THEME = "TRAC,DBUG=grey,INFO=cyan+h,WARN=yellow+h,ERRO=red,FATL=white+h:red"
-	STACK_THEME = "stak=red,func,file,line=red+h"
-	LOG_THEME = "tim=blue+h,pre=yellow,msg=magenta+h,key=green+h,val=green,oth=default"
-	DEFAULT_THEME = LOG_THEME + "," + STACK_THEME + "," + LEVEL_THEME
+	DEF_LEVEL_THEME = "TRAC,DBUG=grey,INFO=cyan+h,WARN=yellow+h,ERRO=red,FATL=white+h:red"
+	DEF_STACK_THEME = "stak=red,func,file,line=red+h"
+	DEF_LOG_THEME   = "tim=blue+h,pre=yellow,msg=magenta+h,key=green+h,val=green,oth=default"
+	DEFAULT_THEME   = DEF_LOG_THEME + "," + DEF_STACK_THEME + "," + DEF_LEVEL_THEME
 )
 
 var defaultTheme = parseTheme(DEFAULT_THEME)
 
 type Theme struct {
-	LogKey       string `theme:"key"`
-	LogValue     string `theme:"val"`
-	LogTimestamp string `theme:"tim"`
-	LogPrefix    string `theme:"pre"`
-	LogMessage   string `theme:"msg"`
-	LogOther     string `theme:"oth"`
+	LogKey       string `theme:"key" json:"key,omitempty" yaml:"key,omitempty"`
+	LogValue     string `theme:"val" json:"val,omitempty" yaml:"val,omitempty"`
+	LogTimestamp string `theme:"tim" json:"tim,omitempty" yaml:"tim,omitempty"`
+	LogPrefix    string `theme:"pre" json:"pre,omitempty" yaml:"pre,omitempty"`
+	LogMessage   string `theme:"msg" json:"msg,omitempty" yaml:"msg,omitempty"`
+	LogOther     string `theme:"oth" json:"oth,omitempty" yaml:"oth,omitempty"`
 
-	StackFunction string `theme:"func"`
-	StackFilename string `theme:"file"`
-	StackLine     string `theme:"line"`
-	StackOther    string `theme:"stak"`
+	StackFunction string `theme:"func" json:"func,omitempty" yaml:"func,omitempty"`
+	StackFilename string `theme:"file" json:"file,omitempty" yaml:"file,omitempty"`
+	StackLine     string `theme:"line" json:"line,omitempty" yaml:"line,omitempty"`
+	StackOther    string `theme:"stak" json:"stak,omitempty" yaml:"stak,omitempty"`
 
-	LevelTrace string `theme:"TRAC"`
-	LevelDebug string `theme:"DBUG"`
-	LevelInfo  string `theme:"INFO"`
-	LevelWarn  string `theme:"WARN"`
-	LevelError string `theme:"ERRO"`
-	LevelFatal string `theme:"FATL"`
+	LevelTrace string `theme:"TRAC" json:"TRAC,omitempty" yaml:"TRAC,omitempty"`
+	LevelDebug string `theme:"DBUG" json:"DBUG,omitempty" yaml:"DBUG,omitempty"`
+	LevelInfo  string `theme:"INFO" json:"INFO,omitempty" yaml:"INFO,omitempty"`
+	LevelWarn  string `theme:"WARN" json:"WARN,omitempty" yaml:"WARN,omitempty"`
+	LevelError string `theme:"ERRO" json:"ERRO,omitempty" yaml:"ERRO,omitempty"`
+	LevelFatal string `theme:"FATL" json:"FATL,omitempty" yaml:"FATL,omitempty"`
 }
 
 func adaptColor(color string) string {
@@ -44,13 +44,13 @@ func adaptColor(color string) string {
 		color = "black+h" + color[5:]
 	} else {
 		switch color[0] {
-		case "-":
+		case '-':
 			color = "default"
 			if len(color) > 1 {
 				color += color[1:]
 			}
 
-		case "+":
+		case '+':
 			color = "default" + color
 		}
 	}
