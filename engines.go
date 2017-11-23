@@ -8,6 +8,8 @@ type Engine interface {
 	_dummy()
 
 	Name() string
+	Push(LoggerInfos, *LogRecord)
+	SetData(interface{})
 }
 
 // Only EngineBase structs can implements Engine interface

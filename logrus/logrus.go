@@ -10,8 +10,8 @@ import (
 	"sync"
 	"time"
 
-	"golang.org/x/crypto/ssh/terminal"
 	"github.com/sirupsen/logrus"
+	"golang.org/x/crypto/ssh/terminal"
 )
 
 const DEFAULT_FORMAT = ""
@@ -70,7 +70,7 @@ func (f *LogrusFormatter) checkIfTerminal(w io.Writer) bool {
 }
 
 // Format renders a single log entry
-func (f *LogrusFormatter) Format(entry *Entry) ([]byte, error) {
+func (f *LogrusFormatter) Format(entry *logrus.Entry) ([]byte, error) {
 	var b *bytes.Buffer
 	keys := make([]string, 0, len(entry.Data))
 	for k := range entry.Data {
